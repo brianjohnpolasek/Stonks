@@ -87,6 +87,13 @@ fig.update_layout(
     yaxis_title="Value"
 )
 
+print('Launching graph...')
 fig.show()
+print('Graph launch success.')
 
-print('Launched Graph')
+# Save graph as png
+print('Saving graph to file \'images/graph.png\'...')
+fig.write_image('images/graph.png')
+print('Graph saved to file.\n')
+
+print('Done.')

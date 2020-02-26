@@ -23,6 +23,10 @@ If command line arguments are not provided, the program will prompt the user for
 
 [Plotly Graphing Tool](https://pypi.org/project/plotly/)
 
+[Psutil](https://pypi.org/project/psutil/) *(Cross-platfrom system monitoring)*
+
+[Orca image generator](https://www.npmjs.com/package/orca)
+
 [Yahoo Finance API](https://github.com/ranaroussi/yfinance)
 
 [FX Json Vizualizer](https://github.com/antonmedv/fx)
