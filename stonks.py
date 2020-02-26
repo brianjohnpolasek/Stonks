@@ -9,7 +9,7 @@ import pandas as pd
 
 def validate_input(stock_name, stock_start_date, stock_end_date):
     try:
-        if (len(re.search("([A-Z]{4})|([A-Z]{3})|([A-Z]{2})", stock_name).group()) < 2):
+        if (len(re.search("(([A-Z]{4})(\.[A-Z]|\-[A-Z]|))|(([A-Z]{3})(\.[A-Z]|\-[A-Z]|))|(([A-Z]{2})(\.[A-Z]|\-[A-Z]|))|(([A-Z]{1})(\.[A-Z]|\-[A-Z]|))", stock_name).group()) < 1):
             print('Failed stock name.\n')
             return False
         if (len(re.search("([0-9]{4}-[0-9]{2}-[0-9]{2})", stock_start_date).group()) != 10):
@@ -80,6 +80,12 @@ fig = pgo.Figure(data=[pgo.Candlestick(x=stock_csv['Date'],
     low=stock_csv['Low'],
     close=stock_csv['Close'])
     ])
+
+fig.update_layout(
+    title="Stock Data for " + stock_name,
+    xaxis_title="Date",
+    yaxis_title="Value"
+)
 
 fig.show()
 
