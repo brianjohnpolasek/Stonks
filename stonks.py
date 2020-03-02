@@ -1,15 +1,22 @@
 import sys
 import os
 import re
+from datetime import datetime
 
 import plotly.graph_objects as pgo
 
 from pandas_datareader import data as pdr
 import pandas as pd
 
+class tcolors:
+    GREEN = '\033[92m'
+    WARNING = '\033[93m'
+    BLUE = '\033[94m'
+    END = '\033[0m'
+
 def validate_input(stock_name, stock_start_date, stock_end_date):
     try:
-        if (len(re.search("(([A-Z]{4})(\.[A-Z]|\-[A-Z]|))|(([A-Z]{3})(\.[A-Z]|\-[A-Z]|))|(([A-Z]{2})(\.[A-Z]|\-[A-Z]|))|(([A-Z]{1})(\.[A-Z]|\-[A-Z]|))", stock_name).group()) < 1):
+        if (len(re.search("([A-Z]{5})|(([A-Z]{4})(\.[A-Z]|\-[A-Z]|))|(([A-Z]{3})(\.[A-Z]|\-[A-Z]|))|(([A-Z]{2})(\.[A-Z]|\-[A-Z]|))|(([A-Z]{1})(\.[A-Z]|\-[A-Z]|))", stock_name).group()) < 1):
             print('Failed stock name.\n')
             return False
         if (len(re.search("([0-9]{4}-[0-9]{2}-[0-9]{2})", stock_start_date).group()) != 10):
@@ -20,14 +27,14 @@ def validate_input(stock_name, stock_start_date, stock_end_date):
             return False
 
     except:
-        print('Invalid data.\n')
+        print(tcolors.WARNING + 'Invalid data.\n' + tcolors.END)
         return False
     else:
-        print('Data is Valid.\n')
+        print(tcolors.GREEN + 'Data is Valid.\n' + tcolors.END)
         return True
 
 def get_user_input():
-    print('Enter data manually.\n')
+    print(tcolors.BLUE + 'Enter data manually.\n' + tcolors.END)
     stock_name = input('Enter stock name (Ex. XYZ): ')
     stock_start_date = input('Enter start date (Ex. 0000-00-00): ')
     stock_end_date = input('Enter end date (Ex. 0000-00-00): ')
@@ -43,14 +50,19 @@ user_input = []
 stock_name = ""
 stock_start_date = ""
 stock_end_date = ""
+curr_date = datetime.now().strftime('%Y-%m-%d')
 
-print('Number of arguments: ' + str(len(sys.argv)) + '\n')
+print('\nNumber of arguments: ' + str(len(sys.argv)))
+print('Today\'s date: ' + curr_date + '\n')
 
 # Validate command line arguments
 if (len(sys.argv) == 4):
-    stock_name = str(sys.argv[1])
+    stock_name = str(sys.argv[1]).upper()
     stock_start_date = str(sys.argv[2])
     stock_end_date = str(sys.argv[3])
+
+    if (stock_end_date == "today"):
+        stock_end_date = curr_date
 
     valid_input = validate_input(stock_name, stock_start_date, stock_end_date)
 
@@ -61,8 +73,8 @@ else:
     user_input = [stock_name, stock_start_date, stock_end_date]
 
 # Import stock data and save to file
-print('Reading data...')
-pdr.DataReader(user_input[0], 'yahoo', user_input[1], user_input[2]).to_csv('data/output2.csv')
+print('Acquiring  data...')
+pdr.DataReader(user_input[0], 'yahoo', user_input[1], user_input[2]).to_csv('data/output_' + stock_name + '_' + curr_date + '.csv')
 print('Data acquired.\n')
 
 # Example input
@@ -70,7 +82,7 @@ print('Data acquired.\n')
 
 # Read saved csv file
 print('Reading csv data...')
-stock_csv = pd.read_csv('data/output2.csv')
+stock_csv = pd.read_csv('data/output_' + stock_name + '_' + curr_date + '.csv')
 print('Data read success.\n')
 
 # Graph stock data using Plotly
@@ -89,11 +101,11 @@ fig.update_layout(
 
 print('Launching graph...')
 fig.show()
-print('Graph launch success.')
+print('Graph launch success.\n')
 
 # Save graph as png
 print('Saving graph to file \'images/graph.png\'...')
-fig.write_image('images/graph.png')
+fig.write_image('images/graph_' + stock_name + '_' + curr_date + '.png')
 print('Graph saved to file.\n')
 
 print('Done.')
