@@ -49,7 +49,7 @@ def set_stock_image(stock_name, start_date, end_date):
 
     print(tcolors.BLUE + 'Stock: ' + stock_name + tcolors.END)
     print(tcolors.BLUE + 'Start: ' + start_date + tcolors.END)
-    print(tcolors.BLUE + 'End: ' + end_date + tcolors.END)
+    print(tcolors.BLUE + 'End: ' + end_date + '\n' +  tcolors.END)
 
     if (validate_input(stock_name, start_date, end_date) == False):
         print('Setting Error Image')

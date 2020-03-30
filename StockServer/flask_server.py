@@ -20,7 +20,7 @@ def get_image():
     return send_file(filename, mimetype='image/png')
 
 if __name__ == '__main__':
-    host_file = open('host_ip', 'r')
+    host_file = open('host_ip.txt', 'r')
     host = str(host_file.read())
     host_file.close()
 
