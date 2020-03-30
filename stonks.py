@@ -91,13 +91,35 @@ fig = pgo.Figure(data=[pgo.Candlestick(x=stock_csv['Date'],
     high=stock_csv['High'],
     low=stock_csv['Low'],
     close=stock_csv['Close'])
-    ])
+])
+
+# print('Close Data: ' + stock_csv['Close'])
+
+# Bollinger Calculations
+# rolling_avg = stock_csv['Close'].rolling(window=20).mean()
+# std_dev = stock_csv['Close'].rolling(window=20).std()
+
+# upper_band = rolling_avg + (2 * std_dev)
+# lower_band = rolling_avg - (2 * std_dev)
+
+# print('Rolling Average: ' + rolling_avg)
+
+# print('Standard Deviation ' + std_dev)
+
+# print('Upper Band: ' + upper_band)
+# print('Lower Band: ' + lower_band)
+
+'''
+fig.add_trace(
+    pgo.Figure(x=upper_band, name='Upper Band')
+)
 
 fig.update_layout(
     title="Stock Data for " + stock_name,
     xaxis_title="Date",
     yaxis_title="Value"
 )
+'''
 
 print('Launching graph...')
 fig.show()
